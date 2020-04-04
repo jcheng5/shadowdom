@@ -4,7 +4,7 @@
 \alias{shadow_dom}
 \title{Wrap htmltools tag objects in shadow DOM}
 \usage{
-shadow_dom(..., .noWS = NULL)
+shadow_dom(..., all_initial = FALSE, .noWS = NULL)
 }
 \arguments{
 \item{...}{Attributes and children of the element. Named arguments become
@@ -13,6 +13,11 @@ tags, single-character character vectors (which become text nodes), raw
 HTML (see \code{\link[htmltools]{HTML}}), and \code{html_dependency} objects. You can
 also pass lists that contain tags, text nodes, or HTML. To use boolean
 attributes, use a named argument with a \code{NA} value. (see example)}
+
+\item{all_initial}{Normally, inheritable styles (`background`, `color`,
+`font`) are inherited across the shadow DOM boundary. Set `all_initial` to
+`TRUE` to reset all styles to their initial (user agent provided) defaults
+instead.}
 
 \item{.noWS}{A character vector used to omit some of the whitespace that
 would normally be written around this tag. Valid options include
@@ -29,12 +34,13 @@ information (notably, Internet Explorer 11 is not supported).
 library(htmltools)
 
 ex <- div(
-  tags$style(HTML(
+  tags$style(HTML(c(
+    "body { font-family: sans-serif; }",
     "p { color: blue; }"
-  )),
+  ))),
   p("Here's a regular <p> tag; it's blue."),
   shadow_dom(p("Here's a <p> tag in a shadow DOM; it's NOT blue.")),
-  shadow_dom(
+  shadow_dom(all_initial = TRUE,
     tags$style(HTML("p { color: green; }")),
     p("Here's a <p> tag in a shadow DOM with its own CSS; it's green.")
   )

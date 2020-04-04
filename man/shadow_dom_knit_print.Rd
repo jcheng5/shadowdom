@@ -4,7 +4,12 @@
 \alias{shadow_dom_knit_print}
 \title{Shadow DOM render function for knitr}
 \usage{
-shadow_dom_knit_print(classes = NULL, fallback = knitr::knit_print)
+shadow_dom_knit_print(
+  classes = NULL,
+  fallback = knitr::knit_print,
+  all_initial = FALSE,
+  .noWS = NULL
+)
 }
 \arguments{
 \item{classes}{If provided, then the object to be printed by knitr must
@@ -13,6 +18,16 @@ objects that do not match will be forwarded to the `fallback` function.}
 
 \item{fallback}{The render function to use if an object doesn't match
 `classes`.}
+
+\item{all_initial}{Normally, inheritable styles (`background`, `color`,
+`font`) are inherited across the shadow DOM boundary. Set `all_initial` to
+`TRUE` to reset all styles to their initial (user agent provided) defaults
+instead.}
+
+\item{.noWS}{A character vector used to omit some of the whitespace that
+would normally be written around this tag. Valid options include
+\code{before}, \code{after}, \code{outside}, \code{after-begin}, and
+\code{before-end}. Any number of these options can be specified.}
 }
 \description{
 Use this function as a knitr render function.
